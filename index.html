@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LTD Prototypers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        asyncx: '#2563EB',
+                        asyncxDark: '#1E40AF'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-bg {
+            background-image: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.9)), url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <nav class="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16 items-center">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-cube text-blue-600 text-2xl"></i>
+                        <span class="font-bold text-xl tracking-tight text-gray-900">LTD <span class="text-blue-600">PROTOTYPERS</span></span>
+                    </div>
+                    
+                    <div class="hidden md:flex space-x-8 items-center">
+                        <button onclick="abrirModal('modal-sobre')" class="text-gray-600 hover:text-blue-600 transition font-medium cursor-pointer">O que é o LTD?</button>
+                        <button onclick="abrirModal('modal-termos')" class="text-gray-600 hover:text-blue-600 transition font-medium cursor-pointer">Termos de Uso</button>
+                        <a href="https://forms.gle/CUp8ef6PAgPzokBX9" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-semibold shadow-md transition-all">
+                            <i class="fa-solid fa-lightbulb mr-2"></i>Cadastrar Demanda
+                        </a>
+                    </div>
+
+                    <div class="flex md:hidden items-center">
+                        <button onclick="toggleMenuMobile()" class="text-gray-600 hover:text-blue-600 focus:outline-none text-2xl p-2 transition-colors cursor-pointer">
+                            <i id="icone-menu" class="fa-solid fa-bars"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="menu-mobile" class="hidden md:hidden bg-white border-t border-gray-100 shadow-xl absolute w-full left-0 z-40 transition-all duration-300 origin-top">
+                <div class="px-4 pt-2 pb-6 space-y-2">
+                    <button onclick="abrirModal('modal-sobre'); toggleMenuMobile()" class="block w-full text-left py-3 px-4 text-base font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer">
+                        <i class="fa-solid fa-circle-info w-6"></i> O que é o LTD?
+                    </button>
+                    <button onclick="abrirModal('modal-termos'); toggleMenuMobile()" class="block w-full text-left py-3 px-4 text-base font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer">
+                        <i class="fa-solid fa-scale-balanced w-6"></i> Termos de Uso
+                    </button>
+                    <a href="https://forms.gle/CUp8ef6PAgPzokBX9" target="_blank" class="block w-full text-center mt-4 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-lg font-semibold shadow-md transition-all">
+                        <i class="fa-solid fa-lightbulb mr-2"></i>Cadastrar Demanda
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+    <header class="hero-bg text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Inovação na Prática</h1>
+            <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">Transformando desafios reais da comunidade em soluções tecnológicas de domínio público.</p>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+        
+        <div class="hidden bg-blue-100 text-blue-700 bg-amber-100 text-amber-700 bg-green-100 text-green-700"></div>
+
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <div class="flex bg-gray-200 p-1 rounded-xl shadow-sm overflow-x-auto w-full md:w-auto">
+                <button onclick="filtrarPorStatus('Todos', this)" class="px-6 py-2 bg-white rounded-lg shadow text-asyncx font-semibold transition-all whitespace-nowrap">Todos</button>
+                <button onclick="filtrarPorStatus('Aberto', this)" class="px-6 py-2 text-gray-600 hover:text-gray-900 font-medium transition-all whitespace-nowrap">Demandas</button>
+                <button onclick="filtrarPorStatus('Em Dev', this)" class="px-6 py-2 text-gray-600 hover:text-gray-900 font-medium transition-all whitespace-nowrap">Desenvolvendo</button>
+                <button onclick="filtrarPorStatus('Concluído', this)" class="px-6 py-2 text-gray-600 hover:text-gray-900 font-medium transition-all whitespace-nowrap">Protótipos</button>
+            </div>
+            <div class="relative w-full md:w-72">
+                <i class="fa-solid fa-search absolute left-3 top-3.5 text-gray-400"></i>
+                <input type="text" oninput="filtrarPesquisa(this.value)" placeholder="Buscar projeto..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-asyncx focus:border-asyncx outline-none transition-shadow">
+            </div>
+        </div>
+
+        <div id="projetos-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-cube text-gray-400 text-xl"></i>
+                <span class="text-gray-600 font-medium">© 2026 LTD Prototypers</span>
+            </div>
+            <div class="flex items-center gap-2 text-gray-500 hover:text-asyncx transition-colors">
+                <i class="fa-solid fa-envelope"></i>
+                <a href="mailto:contato@asyncx.com.br" class="font-medium">contato@asyncx.com.br</a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="modal-sobre" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 hidden flex items-center justify-center backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col">
+            <div class="flex justify-between items-center p-6 border-b border-gray-100">
+                <h2 class="text-2xl font-bold text-gray-900">Sobre o LTD Prototypers</h2>
+                <button onclick="fecharModal('modal-sobre')" class="text-gray-400 hover:text-red-500 text-xl cursor-pointer transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="p-6 space-y-5 text-gray-600 leading-relaxed text-sm md:text-base max-h-[65vh] overflow-y-auto">
+                <p>
+                    O <strong class="text-gray-900">Laboratório de Transformação Digital (LTD)</strong> é o polo de inovação prática dos cursos de tecnologia da <strong class="text-blue-600">Estácio de Carapicuíba</strong>. Nosso objetivo é transformar o aprendizado de sala de aula em impacto real para a sociedade.
+                </p>
+                
+                <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                    <h4 class="font-bold text-blue-900 mb-2"><i class="fa-solid fa-rocket mr-2"></i>Como funciona o ciclo?</h4>
+                    <p class="text-blue-800 text-sm leading-relaxed">
+                        Durante um semestre, nossos alunos são organizados em <strong>equipes de desenvolvimento</strong> para atuar em projetos que englobam a Inclusão Digital, Gestão de TI, Infraestrutura e o Desenvolvimento de Software. 
+                    </p>
+                </div>
+
+                <p>
+                    Em vez de projetos fictícios, adotamos o modelo <strong>LTD PROTOTYPERS</strong>.Onde a comunidade externa cadastram suas dores e desafios reais no nosso portal. Nossos alunos, então, adotam esses desafios e desenvolvem protótipos tecnológicos para resolvê-los.
+                </p>
+
+                <p>
+                    Além da fábrica de software, o ecossistema do LTD é fomentado com a realização contínua de palestras, eventos e trilhas de capacitação oficiais de mercado, como as oficinas da <strong>Cisco</strong> e <strong>AWS Academy</strong>, garantindo que o aluno saia com um portfólio rico e experiência prática de mercado.
+                </p>
+            </div>
+            
+            <div class="p-6 bg-gray-50 text-right border-t border-gray-100">
+                <button onclick="fecharModal('modal-sobre')" class="bg-gray-900 text-white px-6 py-2 rounded-lg hover:bg-black font-semibold cursor-pointer transition-colors">
+                    Entendi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-termos" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 hidden flex items-center justify-center backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col">
+            <div class="flex justify-between items-center p-6 border-b border-gray-100">
+                <h2 class="text-2xl font-bold text-gray-900">Sobre os Termos de Uso</h2>
+                <button onclick="fecharModal('modal-termos')" class="text-gray-400 hover:text-red-500 text-xl cursor-pointer transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="p-6 space-y-5 text-gray-600 leading-relaxed text-sm md:text-base max-h-[65vh] overflow-y-auto">
+                <div class="bg-amber-50 p-4 rounded-xl border border-amber-100 mb-4">
+                    <p class="text-amber-800 font-semibold">
+                        <i class="fa-solid fa-scale-balanced mr-2"></i>Inovação Aberta e Domínio Público
+                    </p>
+                </div>
+
+                <p>
+                    O portal <strong>LTD PROTOTYPERS</strong> opera sob o conceito absoluto de Inovação Aberta. Para garantir que a tecnologia gerada aqui alcance o maior número de pessoas, estabelecemos regras claras e livres de burocracia para todos os envolvidos:
+                </p>
+
+                <ul class="list-none space-y-3 mt-4">
+                    <li class="flex items-start">
+                        <i class="fa-solid fa-check text-green-500 mt-1 mr-3"></i>
+                        <div>
+                            <strong class="text-gray-900">Licença de Domínio Público:</strong> Todos os códigos, diagramas, EAPs e protótipos submetidos pelos alunos neste portal abdicam de direitos autorais, sendo registrados sob a licença <strong>CC0 (Creative Commons Zero)</strong>.
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa-solid fa-check text-green-500 mt-1 mr-3"></i>
+                        <div>
+                            <strong class="text-gray-900">Zero Royalties:</strong> Qualquer pessoa da comunidade, o próprio aluno criador do protótipo, ou instituições parceiras, podem copiar, modificar, fechar o código e comercializar as soluções criadas aqui <strong>sem a necessidade de pagar royalties ou dar créditos.
+                            </strong>.
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa-solid fa-check text-green-500 mt-1 mr-3"></i>
+                        <div>
+                            <strong class="text-gray-900">Natureza Experimental:</strong> Os projetos disponibilizados para download são <em>Protótipos Acadêmicos</em>. Eles são fornecidos "no estado em que se encontram". A Estácio de Carapicuíba e os alunos não oferecem suporte técnico contínuo, garantias de segurança corporativa ou manutenção após o encerramento do semestre letivo.
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa-solid fa-check text-green-500 mt-1 mr-3"></i>
+                        <div>
+                            <strong class="text-gray-900">Privacidade:</strong> Os dados das empresas e usuários que submetem desafios são utilizados exclusivamente para fins de contato acadêmico e emissão de relatórios institucionais, não sendo comercializados.
+                        </div>
+                    </li>
+                </ul>
+
+                <p class="mt-4 text-sm text-gray-500 border-t border-gray-100 pt-4">
+                    Ao cadastrar um desafio ou ao submeter um protótipo como aluno, você concorda expressamente com estas diretrizes de fomento à tecnologia livre.
+                </p>
+            </div>
+            
+            <div class="p-6 bg-gray-50 text-right border-t border-gray-100">
+                <button onclick="fecharModal('modal-termos')" class="bg-gray-900 text-white px-6 py-2 rounded-lg hover:bg-black font-semibold cursor-pointer transition-colors">
+                    Entendi
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="modal-dinamico" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 hidden flex items-center justify-center backdrop-blur-sm p-4">
+        <div id="modal-conteudo" class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden animate-fade-in">
+            </div>
+    </div>
+
+    <script>
+        function abrirModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function fecharModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        function toggleMenuMobile() {
+            const menu = document.getElementById('menu-mobile');
+            const icone = document.getElementById('icone-menu');
+            menu.classList.toggle('hidden');
+
+            if (menu.classList.contains('hidden')) {
+                icone.classList.remove('fa-xmark');
+                icone.classList.add('fa-bars');
+            } else {
+                icone.classList.remove('fa-bars');
+                icone.classList.add('fa-xmark');
+            }
+        }
+    </script>
+    <script src="js/app.js"></script>
+</body>
+</body>
+</html>
